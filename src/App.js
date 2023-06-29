@@ -107,22 +107,38 @@ function App() {
         });
     }
   }, [images]);
-  
 
   return (
     <div className="App">
       <input type="file" accept=".pdf" onChange={handleFileUpload} />
-      {file && (
-        <Document file={file} onLoadSuccess={onDocumentLoadSuccess} />
-      )}
-      {loading && <p>Loading...</p>}{" "}
-      {/* Dodano: prikazivanje poruke o učitavanju */}
+      {file && <Document file={file} onLoadSuccess={onDocumentLoadSuccess} />}
+      {loading && <p>Loading...</p>} {/* prikazivanje poruke o učitavanju */}
       {results.length > 0 &&
         !loading && ( // Provjera da li se ne učitavaju rezultati
           <div>
             <h2>Results:</h2>
             {results.map((result, index) => (
-              <p key={index}>{JSON.stringify(result)}</p>
+              <div key={index}>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  {`Stranica ${result.PageNumber}`}
+                </p>
+                <div
+                  style={{
+                    marginLeft: "1rem",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {result.PageText.map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         )}
